@@ -1,0 +1,253 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="SCRO-Bench evaluates how multimodal models use visible spatial layouts to judge what is hidden by an occlusion.">
+  <meta name="theme-color" content="#f8f9fc">
+  <title>SCRO-Bench · Spatial Commonsense Reasoning using Occlusion</title>
+  <link rel="icon" href="./assets/scro.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="./styles.css">
+  <script src="./app.js" defer></script>
+</head>
+<body id="top">
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="nav-shell">
+      <a class="wordmark" href="#top" aria-label="SCRO-Bench home"><img src="./assets/scro.svg" width="29" height="29" alt="">SCRO<span>-Bench</span></a>
+      <button class="nav-toggle" type="button" id="nav-toggle" aria-controls="site-nav" aria-expanded="false">Menu</button>
+      <nav id="site-nav" aria-label="Main navigation">
+        <a href="#abstract">Abstract</a>
+        <a href="#overview">Overview</a>
+        <a href="#examples">Examples</a>
+        <a href="#results">Results</a>
+        <a href="#analysis">Analysis</a>
+      </nav>
+      <a class="nav-action" href="#examples">Try the benchmark <span aria-hidden="true">↗</span></a>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="hero" aria-labelledby="page-title">
+      <div class="wrap">
+        <div class="hero-heading">
+          <p class="eyebrow hero-eyebrow"><span></span> A COMMONSENSE REASONING BENCHMARK</p>
+          <h1 id="page-title">SCRO<span>-Bench</span></h1>
+          <p class="hero-subtitle">Spatial Commonsense Reasoning using Occlusion</p>
+          <div class="hero-credits" role="group" aria-label="Authors and affiliations">
+            <p class="hero-authors">
+              <span>Xiaofan Lin<sup>1,2</sup>,</span>
+              <span>Shiwei Zhang<sup>1</sup>,</span>
+              <span>Peng Zhang<sup>3</sup>,</span>
+              <span>Yanhao Wu<sup>3</sup>,</span>
+              <span>Shaokun Wang<sup>4</sup>,</span>
+              <span>Dongyang Zhang<sup>1</sup>,</span>
+              <span>Xinyu Zhou<sup>1</sup>,</span>
+              <span>Guiduo Duan<sup>1</sup></span>
+            </p>
+            <ul class="hero-affiliations" role="list">
+              <li><sup>1</sup> University of Electronic Science and Technology of China <span>(uestc.edu.cn)</span></li>
+              <li><sup>2</sup> Guangdong Ocean University <span>(gdou.edu.cn)</span></li>
+              <li><sup>3</sup> Xi'an Jiaotong University <span>(xjtu.edu.cn)</span></li>
+              <li><sup>4</sup> Harbin Institute of Technology <span>(hit.edu.cn)</span></li>
+            </ul>
+          </div>
+          <p class="hero-lede">Can a model use the visible layout of a scene to tell whether a mask hides a target object?</p>
+          <div class="hero-actions">
+            <a class="button primary" href="#examples">Try an example <span aria-hidden="true">→</span></a>
+            <a class="button secondary" href="#results">Explore results <span aria-hidden="true">↘</span></a>
+          </div>
+        </div>
+        <div class="specimen-grid" aria-label="Three example scenes">
+          <a href="#examples" data-open-example="go" class="specimen specimen-sage">
+            <div class="specimen-image"><img src="./assets/go.jpg" alt="Go stones clustered on a board, with a black mask on empty grid space" width="576" height="384" fetchpriority="high"><span aria-hidden="true">01</span></div>
+            <span class="specimen-caption">Cluster separation <b aria-hidden="true">↗</b></span>
+          </a>
+          <a href="#examples" data-open-example="bread" class="specimen specimen-lilac">
+            <div class="specimen-image"><img src="./assets/bread.jpg" alt="A complete group of bread rolls with a black mask outside the group" width="384" height="384" fetchpriority="high"><span aria-hidden="true">02</span></div>
+            <span class="specimen-caption">Layout completeness <b aria-hidden="true">↗</b></span>
+          </a>
+          <a href="#examples" data-open-example="tomatoes" class="specimen specimen-peach">
+            <div class="specimen-image"><img src="./assets/tomatoes.jpg" alt="A black mask interrupts a repeated arrangement of tomatoes" width="408" height="384" fetchpriority="high"><span aria-hidden="true">03</span></div>
+            <span class="specimen-caption">Pattern continuity <b aria-hidden="true">↗</b></span>
+          </a>
+        </div>
+        <div class="stats" aria-label="Benchmark at a glance">
+          <div><strong>1,672</strong><span>Natural images</span></div>
+          <div><strong>120</strong><span>Object categories</span></div>
+          <div><strong>700</strong><span>Synthetic diagnostic samples</span></div>
+          <div><strong>8</strong><span>MLLMs evaluated</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="abstract-section" id="abstract" aria-labelledby="abstract-title">
+      <div class="wrap abstract-content">
+        <h2 id="abstract-title">Abstract</h2>
+        <p>Spatial commonsense is an innate human ability that enables people to understand scene layouts and infer unseen content. Despite rapid advances in multimodal large language models (MLLMs), whether they possess human-like spatial commonsense remains an open question. To this end, we introduce SCRO-Bench (Spatial Commonsense Reasoning using Occlusion), a benchmark that uses occlusion to evaluate whether MLLMs possess spatial commonsense and the ability to leverage it in reasoning. The benchmark introduces occlusion into images of object clusters drawn from counting datasets, requiring models to apply spatial commonsense cues (e.g., cluster boundaries and layout completeness) to determine whether a specified occluded region covers at least one instance of the queried category. SCRO-Bench comprises 1,672 natural images, covering 120 object categories, along with two controlled synthetic test sets. We evaluate eight MLLMs and establish a human baseline, finding that the evaluated models perform substantially worse than humans and exhibit higher false positive rates than false negative rates overall. Further diagnostic and commonsense guidance experiments suggest that models possess some spatial commonsense but have yet to attain human-like competence, while explicit commonsense guidance can improve their performance. SCRO-Bench provides a foundation for evaluating and improving the capabilities of MLLMs that utilize spatial commonsense in reasoning. SCRO-bench will be open-sourced.</p>
+      </div>
+    </section>
+
+    <section class="section wrap overview" id="overview" aria-labelledby="overview-title">
+      <div class="section-intro overview-intro">
+        <div><p class="eyebrow section-index">01 / THE BENCHMARK</p><h2 id="overview-title">From visible layout<br>to hidden objects.</h2></div>
+        <div class="two-paragraphs">
+          <p>SCRO-Bench asks a yes-or-no question about a specific masked region: does it cover at least one instance of the target category? Visible instances confirm the category is present in the scene. Their arrangement offers evidence about whether it extends into the mask.</p>
+          <p>The natural set includes <strong>502 target-containing</strong> and <strong>1,170 background-only</strong> regions. Two controlled synthetic sets isolate blank-background prompting and the distance from the mask to an object cluster.</p>
+        </div>
+      </div>
+      <figure class="overview-figure">
+        <a href="./assets/overview.png" target="_blank" rel="noopener" aria-label="Open the full benchmark overview figure"><img src="./assets/overview.png" alt="SCRO-Bench overview showing the natural images, synthetic diagnostics, benchmark scores, and additional analyses" loading="lazy"></a>
+        <figcaption>Benchmark overview <a href="./assets/overview.png" target="_blank" rel="noopener">View full size <span aria-hidden="true">↗</span></a></figcaption>
+      </figure>
+    </section>
+
+    <section class="section examples-section" id="examples" aria-labelledby="examples-title">
+      <div class="wrap">
+        <div class="section-intro">
+          <div><p class="eyebrow section-index">02 / INTERACTIVE EXAMPLES</p><h2 id="examples-title">What’s under the mask?</h2></div>
+          <p>Use the same visible evidence as the models. Choose a scene, make your prediction, then reveal the ground truth.</p>
+        </div>
+        <div class="example-tabs" role="tablist" aria-label="Spatial cues">
+          <button id="example-tab-go" type="button" role="tab" aria-controls="example-panel" aria-selected="false" tabindex="-1" data-example="go"><span>01</span> Cluster separation</button>
+          <button id="example-tab-bread" type="button" role="tab" aria-controls="example-panel" aria-selected="true" tabindex="0" data-example="bread"><span>02</span> Layout completeness</button>
+          <button id="example-tab-tomatoes" type="button" role="tab" aria-controls="example-panel" aria-selected="false" tabindex="-1" data-example="tomatoes"><span>03</span> Pattern continuity</button>
+        </div>
+        <div class="example-panel" id="example-panel" role="tabpanel" aria-labelledby="example-tab-bread">
+          <div class="example-visual"><img id="example-image" src="./assets/bread.jpg" alt="A complete group of bread rolls with a mask to its lower right" width="384" height="384" loading="lazy"></div>
+          <div class="example-details">
+            <p class="eyebrow" id="example-kicker">02 / LAYOUT COMPLETENESS</p>
+            <h3 id="example-title">Bread rolls</h3>
+            <p id="example-question">Does the mask cover at least one bread roll?</p>
+            <div class="answer-buttons" role="group" aria-label="Your prediction">
+              <button type="button" data-answer="yes" aria-pressed="false">Yes</button>
+              <button type="button" data-answer="no" aria-pressed="false">No</button>
+            </div>
+            <div id="example-feedback" class="example-feedback" aria-live="polite" hidden>
+              <strong id="example-feedback-title"></strong>
+              <p id="example-feedback-copy"></p>
+            </div>
+            <noscript><p>Ground truth: No. The bread rolls form a complete group, with the mask outside its boundary.</p></noscript>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section wrap" id="results" aria-labelledby="results-title">
+      <div class="section-intro">
+        <div><p class="eyebrow section-index">03 / MAIN RESULTS</p><h2 id="results-title">A gap in masked-region judgments.</h2></div>
+        <p>Humans achieve near-ceiling performance. Across the evaluated models, false positives are more common than false negatives.</p>
+      </div>
+      <div class="results-highlights" aria-label="Highlights from the natural image evaluation">
+        <div><span>Human balanced accuracy</span><strong>99.41<small>%</small></strong></div>
+        <div><span>Best model balanced accuracy</span><strong>94.26<small>%</small></strong></div>
+        <div><span>Human–model gap</span><strong>5.15<small>%</small></strong></div>
+      </div>
+      <div class="table-card">
+        <div class="table-toolbar">
+          <div><h3>Natural image evaluation</h3><p>1,672 examples · All metrics in percent</p></div>
+          <label for="result-sort">Sort by
+            <select id="result-sort">
+              <option value="fpr">False positive rate</option>
+              <option value="fnr">False negative rate</option>
+              <option value="bacc">Balanced accuracy</option>
+              <option value="error">Overall error rate</option>
+            </select>
+          </label>
+        </div>
+        <div class="table-scroll" tabindex="0" role="region" aria-label="Model results table">
+          <table id="results-table">
+            <thead>
+              <tr>
+                <th scope="col">Rank</th>
+                <th scope="col">Model</th>
+                <th scope="col" data-metric="fpr" title="False positive rate">FPR ↓</th>
+                <th scope="col" data-metric="fnr" title="False negative rate">FNR ↓</th>
+                <th scope="col" data-metric="bacc" title="Balanced accuracy">BAcc ↑</th>
+                <th scope="col" data-metric="error" title="Overall error rate">Error ↓</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="human-row" data-human data-fpr="0.34" data-fnr="0.84" data-bacc="99.41" data-error="0.49"><td data-rank>—</td><th scope="row">Human baseline</th><td>0.34</td><td>0.84</td><td>99.41</td><td>0.49</td></tr>
+              <tr data-fpr="10.68" data-fnr="0.80" data-bacc="94.26" data-error="7.72"><td data-rank>1</td><th scope="row">GPT-5.6-Terra</th><td>10.68</td><td>0.80</td><td>94.26</td><td>7.72</td></tr>
+              <tr data-fpr="18.89" data-fnr="4.58" data-bacc="88.26" data-error="14.59"><td data-rank>2</td><th scope="row">GLM-4.6V-Flash (9B)</th><td>18.89</td><td>4.58</td><td>88.26</td><td>14.59</td></tr>
+              <tr data-fpr="23.59" data-fnr="4.38" data-bacc="86.01" data-error="17.82"><td data-rank>3</td><th scope="row">Qwen3.8 (27B)</th><td>23.59</td><td>4.38</td><td>86.01</td><td>17.82</td></tr>
+              <tr data-fpr="40.00" data-fnr="14.34" data-bacc="72.83" data-error="32.30"><td data-rank>4</td><th scope="row">MiniCPM-V-4.5 (8B)</th><td>40.00</td><td>14.34</td><td>72.83</td><td>32.30</td></tr>
+              <tr data-fpr="41.20" data-fnr="6.57" data-bacc="76.11" data-error="30.80"><td data-rank>5</td><th scope="row">Qwen3-VL (8B)</th><td>41.20</td><td>6.57</td><td>76.11</td><td>30.80</td></tr>
+              <tr data-fpr="42.56" data-fnr="9.76" data-bacc="73.84" data-error="32.72"><td data-rank>6</td><th scope="row">InternVL3 (8B)</th><td>42.56</td><td>9.76</td><td>73.84</td><td>32.72</td></tr>
+              <tr data-fpr="51.11" data-fnr="5.38" data-bacc="71.76" data-error="37.38"><td data-rank>7</td><th scope="row">LLaVA-OneVision (7B)</th><td>51.11</td><td>5.38</td><td>71.76</td><td>37.38</td></tr>
+              <tr data-fpr="86.24" data-fnr="1.59" data-bacc="56.08" data-error="60.83"><td data-rank>8</td><th scope="row">Idefics3 (8B)</th><td>86.24</td><td>1.59</td><td>56.08</td><td>60.83</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="table-note">Human scores are reported as a reference and excluded from model ranks.</p>
+      </div>
+    </section>
+
+    <section class="section analysis-section" id="analysis" aria-labelledby="analysis-title">
+      <div class="wrap">
+        <div class="section-intro">
+          <div><p class="eyebrow section-index">04 / ADDITIONAL ANALYSIS</p><h2 id="analysis-title">What changes a model’s answer?</h2></div>
+          <p>Controlled tests probe how occlusion judgments respond to spatial separation, explicit guidance, and the presentation of the mask.</p>
+        </div>
+        <div class="analysis-grid">
+          <article class="analysis-card">
+            <p class="eyebrow">SPATIAL SEPARATION</p>
+            <h3>Distance to the cluster</h3>
+            <p>False positive rates fell for all three models as the mask moved farther from the fixed array of circles.</p>
+            <table class="distance-summary" aria-label="False positive rate by mask distance">
+              <thead><tr><th scope="col">Model</th><th scope="col">50 px</th><th scope="col">300 px</th></tr></thead>
+              <tbody>
+                <tr><th scope="row">Qwen3-VL</th><td>86.0%</td><td>4.0%</td></tr>
+                <tr><th scope="row">MiniCPM-V-4.5</th><td>85.0%</td><td>1.0%</td></tr>
+                <tr><th scope="row">GLM-4.6V-Flash</th><td>45.0%</td><td>0.0%</td></tr>
+              </tbody>
+            </table>
+            <a class="analysis-link" href="#distance-results">See results at all six distances</a>
+          </article>
+          <article class="analysis-card">
+            <p class="eyebrow">SPATIAL GUIDANCE</p>
+            <h3>Layout cues at inference</h3>
+            <p>Text principles and image–text demonstrations improved balanced accuracy in the tested settings. The cues covered separation, completeness, and continuity.</p>
+            <div class="cue-tags"><span>Text-only</span><span>Vision-text</span></div>
+            <a class="analysis-link" href="#guidance-example">See the guidance example</a>
+          </article>
+          <article class="analysis-card"><p class="eyebrow">MASK APPEARANCE</p><h3>Sensitivity to color</h3><p>All four nonblack conditions reduced false positives for each tested model. Changes in balanced accuracy depended on the model and color.</p><div class="swatches" aria-label="Black, white, red, green, and blue masks"><span title="Black"></span><span title="White"></span><span title="Red"></span><span title="Green"></span><span title="Blue"></span></div></article>
+        </div>
+        <details class="analysis-details" id="distance-results">
+          <summary>View mask distance results <span aria-hidden="true">+</span></summary>
+          <p>False positive rate (%) on background-only samples, with 100 images at each distance.</p>
+          <div class="table-scroll" tabindex="0" role="region" aria-label="False positive rates at six mask distances">
+            <table>
+              <thead><tr><th scope="col">Model</th><th scope="col">50 px</th><th scope="col">100 px</th><th scope="col">150 px</th><th scope="col">200 px</th><th scope="col">250 px</th><th scope="col">300 px</th></tr></thead>
+              <tbody>
+                <tr><th scope="row">Qwen3-VL (8B)</th><td>86.0</td><td>78.0</td><td>47.0</td><td>22.0</td><td>10.0</td><td>4.0</td></tr>
+                <tr><th scope="row">MiniCPM-V-4.5 (8B)</th><td>85.0</td><td>25.0</td><td>6.0</td><td>3.0</td><td>1.0</td><td>1.0</td></tr>
+                <tr><th scope="row">GLM-4.6V-Flash (9B)</th><td>45.0</td><td>0.0</td><td>0.0</td><td>0.0</td><td>0.0</td><td>0.0</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </details>
+        <details class="analysis-details" id="guidance-example">
+          <summary>View the spatial guidance example <span aria-hidden="true">+</span></summary>
+          <figure class="overview-figure guidance-figure" aria-labelledby="guidance-caption">
+            <a href="./assets/guidance-example.png" target="_blank" rel="noopener" aria-label="Open the full-size comparison of guidance conditions"><img src="./assets/guidance-example.png" width="2010" height="822" alt="The bread-roll query has a ground-truth answer of No. The model answers Yes without guidance and No with either text-only or vision-text spatial commonsense guidance." loading="lazy"></a>
+            <figcaption id="guidance-caption"><span><strong>Spatial guidance example.</strong> Qwen3-VL’s answers on the same bread-roll query with no guidance, text-only principles, and image–text demonstrations.</span><a href="./assets/guidance-example.png" target="_blank" rel="noopener">View full size</a></figcaption>
+          </figure>
+        </details>
+        <details class="analysis-details">
+          <summary>Compare mask color results <span aria-hidden="true">+</span></summary>
+          <p>Balanced accuracy (%) on the same natural images. Mask location, geometry, and size were held fixed, and each prompt named its matching mask color.</p>
+          <div class="table-scroll" tabindex="0" role="region" aria-label="Mask color results table">
+            <table><thead><tr><th scope="col">Mask color</th><th scope="col">Qwen3-VL (8B)</th><th scope="col">MiniCPM-V-4.5 (8B)</th><th scope="col">GLM-4.6V-Flash (9B)</th></tr></thead>
+              <tbody><tr><th scope="row">Black</th><td>76.11</td><td>72.83</td><td>88.26</td></tr><tr><th scope="row">White</th><td>79.79</td><td>76.22</td><td>86.13</td></tr><tr><th scope="row">Red</th><td><strong>87.31</strong></td><td>76.79</td><td><strong>92.01</strong></td></tr><tr><th scope="row">Green</th><td>86.85</td><td>78.60</td><td>91.80</td></tr><tr><th scope="row">Blue</th><td>85.94</td><td><strong>79.81</strong></td><td>91.14</td></tr></tbody>
+            </table>
+          </div>
+        </details>
+      </div>
+    </section>
+  </main>
+
+  <footer><div class="wrap footer-inner"><div><a class="wordmark" href="#top"><img src="./assets/scro.svg" width="29" height="29" alt="">SCRO<span>-Bench</span></a><p>Spatial Commonsense Reasoning using Occlusion</p></div><a class="back-top" href="#top">Back to top <span aria-hidden="true">↑</span></a></div></footer>
+</body>
+</html>
